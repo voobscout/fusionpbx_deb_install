@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #Date Jan 207 2015 19:20 CST
 ################################################################################
 # The MIT License (MIT)
@@ -167,11 +167,11 @@ cat << DELIM
     You need to edit the script and enable the pgsql-client or pgsql
 
     option and fill in the required information.
-    
+
     Please Referance :
-    
+
     http://wiki.fusionpbx.com/index.php?title=Debian_Fusionpbx_Pkg_or_Source_Install
-    
+
 DELIM
 echo
 ########################################
@@ -223,7 +223,7 @@ freeswitch_stable="y"
 # down all the build deps and and git the freeswitch src and build and install
 # from the freeswitch source code using the debian fhs lay out.
 ################################################################################
-freeswitch_pkgs="y"
+freeswitch_pkgs="n"
 
 #####################################################################################################
 # Set what language lang/say pkgs and language sound files to use. ( Only if pkgs install is selected )
@@ -234,11 +234,11 @@ freeswitch_sounds_language="en-us"
 
 ################################################################################
 #Set what sounds to use when using the freeswitch source build.
-# cd sounds = 8k / 16k / 32k / 48k 
+# cd sounds = 8k / 16k / 32k / 48k
 # if you select not to use cd sounds it will use
 # hd sounds = 8k / 16k sounds only
 ################################################################################
-freeswitch_cd_sounds=="y" 
+freeswitch_cd_sounds=="n"
 
 ################################################################################
 # If you select not to use pkgs but to build from source. Here is a option to
@@ -250,7 +250,7 @@ multi_core="n"
 # If you select not to use pkgs but to build from source. Here is a option to
 # pull and use the freeswitch contribs src for extra modules. (UNDER DEVELOPMENT)
 ################################################################################
-#use_freeswitch_contrib="n"
+use_freeswitch_contrib="y"
 
 ################################################################################
 # Enable / Build Freetdm into freeswitch (UNDER DEVELOPMENT)
@@ -276,7 +276,7 @@ use_mod_gsmopen="n"
 ################################################################################
 #Freeswutch Modules Selection
 ################################################################################
-#use_optional_modules="n"
+use_optional_modules="y"
 
 ################################################################################
 # Freeswitch Modules
@@ -384,9 +384,9 @@ fi
 ###################################################
 # Add / Enable optional modules from list above here
 ###################################################
-#if [[ $use_optional_modules == "y" ]]; then
-#	optional_modules_add=( )
-#fi
+if [[ $use_optional_modules == "y" ]]; then
+	optional_modules_add=(mod_skypopen mod_mp4 mod_voicemail_ivr mod_mp4v mod_com_g729)
+fi
 
 #################################
 # Freeswitch Contrib Modules
@@ -433,12 +433,12 @@ fusionpbx_stable="y"
 #############################################################################
 #Set how long to keep freeswitch/fusionpbx log files 1 to 30 days (Default:5)
 #############################################################################
-keep_logs=5
+keep_logs=30
 
 #######################################################################
 #Set mp3/wav file upload/post size limit ( Must Have the M on the end )
 #######################################################################
-upload_size="25M"
+upload_size="150M"
 
 ##########################################
 #----Optional Fusionpbx Apps/Modules----
@@ -449,7 +449,7 @@ upload_size="25M"
 ###################################################################
 # If you wish to install all options use THE ALL OPTION ONLY!!!!!!!
 ###################################################################
-all="n" #: Install all extra modules for fusionpbx and related freeswitch deps
+all="y" #: Install all extra modules for fusionpbx and related freeswitch deps
 
 ###############################################################
 # Else select options fusionpbx module/appsfrom here........
@@ -507,7 +507,7 @@ postgresql_client="n"
 # life in half due to all the needed reads and writes. This cuts the life of
 # your pbx emmc/sd in half.
 #################################################################################
-postgresql_server="n"
+postgresql_server="y"
 
 ##########################################################
 # Set Postgresql Server Admin username ( Lower case only )
@@ -883,14 +883,14 @@ if [ $use_mod_gsmopen == "y" ]; then
 	#Install gsm resuirements
 	apt-get -y install libgsmsd7 libgsmsmme-dev libgsmme1c2a libgsm0710mux3 libgsm-tools \
 		libgsm1 libgsm1-dev libgsm0710-0 libgsm0710-dev
-	# Install usb mode switch requirements	 
+	# Install usb mode switch requirements
 	apt-get -y installusb-modeswitch-data usb-modeswitch
 	#wget/build libctb
 	wget https://iftools.com/download/ctb/0.16/libctb-0.16.tar.gz
 	tar xzvf libctb-0.16.tar.gz -C /usr/src
 	cd /usr/src/libctb-0.16/build
 	make DEBUG=0 GPIB=0
-	make DEBUG=0 GPIB=0 install	
+	make DEBUG=0 GPIB=0 install
 	#running ldconfig to prep for freetdm build
 	pgrep -f ldconfig > /dev/null
 fi
@@ -918,9 +918,9 @@ fi
 # add patches for updating builds
 ##################################
 #fix mod_shout build
-sed -i "$fs_src_path/src/mod/formats/mod_shout/Makefile.in" -e 's|mpg123-1.13.2|mpg123-1.19.0|' 
+sed -i "$fs_src_path/src/mod/formats/mod_shout/Makefile.in" -e 's|mpg123-1.13.2|mpg123-1.19.0|'
 #Update ZMQ
-sed -i "$fs_src_path/src/mod/event_handlers/mod_event_zmq/Makefile.in" -e 's|2.1.9|4.0.5|' 
+sed -i "$fs_src_path/src/mod/event_handlers/mod_event_zmq/Makefile.in" -e 's|2.1.9|4.0.5|'
 
 #######################
 #bootstrap the srccode
@@ -1082,7 +1082,7 @@ fi
 #################################################
 #Put Freeswitch init.d service script into place
 #################################################
-echo 
+echo
 cp "$fs_src_path"/debian/freeswitch-sysvinit.freeswitch.default /etc/default/freeswitch
 echo
 echo " Installing/Enabling init.d startup scripts for freeswitch"
@@ -1826,7 +1826,7 @@ DELIM
 fi
 
 echo -ne " The Install will clean up the last bit of permissions when "
-echo 
+echo
 echo " you finish entering the required information and return here. "
 echo
 echo " Waiting on /etc/$wui_name/config.php "
@@ -1855,8 +1855,8 @@ done
 cat > '/etc/default/freeswitch' << DELIM
 CONFDIR="/etc/fusionpbx/switch/conf"
 #
-# Uncooment extra lines and make sure to add cut and paste them to the DAEMON_ARGS 
-# Options to control locations of files: 
+# Uncooment extra lines and make sure to add cut and paste them to the DAEMON_ARGS
+# Options to control locations of files:
 #fs_base=""  # -base $fs_base
 fs_conf="/etc/fusionpbx/switch/conf" # -conf $fs_conf
 #fs_cache="" # -cache $fs_cache
@@ -2094,7 +2094,7 @@ service fail2ban restart
 #########################################################
 #Turning off Repeated Msg Reduction in /etc/rsyslog.conf"
 #########################################################
-sed -i 's/RepeatedMsgReduction\ on/RepeatedMsgReduction\ off/' /etc/rsyslog.conf 
+sed -i 's/RepeatedMsgReduction\ on/RepeatedMsgReduction\ off/' /etc/rsyslog.conf
 
 ############################
 # Restarting rsyslog service
@@ -2167,7 +2167,7 @@ iptables -I INPUT -j DROP -p udp --dport 5080 -m string --string "friendly-scann
 
 ##################################
 # Option to disable xml_cdr files
-# Logs cdr only to database. 
+# Logs cdr only to database.
 ##################################
 if [[ $xml_cdr_files == "y" ]]; then
 	sed -i "$WWW_PATH"/"$wui_name"/app/vars/app_defaults.php -e 's#{"var_name":"xml_cdr_archive","var_value":"dir","var_cat":"Defaults","var_enabled":"true","var_description":""}#{"var_name":"xml_cdr_archive","var_value":"none","var_cat":"Defaults","var_enabled":"true","var_description":""}#'
@@ -2298,4 +2298,3 @@ echo " # The Freeswitch / Fusionpbx Install is now complete and your system is r
 echo " ########################################################################################## "
 echo " #                   Please send any feed back to r.neese@gmail.com                       # "
 echo " ########################################################################################## "
-
