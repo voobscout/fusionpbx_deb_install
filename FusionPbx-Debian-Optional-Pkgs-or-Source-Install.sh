@@ -238,7 +238,7 @@ freeswitch_sounds_language="en-us"
 # if you select not to use cd sounds it will use
 # hd sounds = 8k / 16k sounds only
 ################################################################################
-freeswitch_cd_sounds=="n"
+freeswitch_cd_sounds=="y"
 
 ################################################################################
 # If you select not to use pkgs but to build from source. Here is a option to
@@ -250,7 +250,7 @@ multi_core="n"
 # If you select not to use pkgs but to build from source. Here is a option to
 # pull and use the freeswitch contribs src for extra modules. (UNDER DEVELOPMENT)
 ################################################################################
-use_freeswitch_contrib="y"
+use_freeswitch_contrib="n"
 
 ################################################################################
 # Enable / Build Freetdm into freeswitch (UNDER DEVELOPMENT)
@@ -449,30 +449,30 @@ upload_size="150M"
 ###################################################################
 # If you wish to install all options use THE ALL OPTION ONLY!!!!!!!
 ###################################################################
-all="y" #: Install all extra modules for fusionpbx and related freeswitch deps
+all="n" #: Install all extra modules for fusionpbx and related freeswitch deps
 
 ###############################################################
 # Else select options fusionpbx module/appsfrom here........
 ###############################################################
-adminer="n" # : integrated for an administrator in the superadmin group to enable easy database access
-backup="n" # : pbx backup module. backup sqlite db / configs/ logs
-call_broadcast="n" # : Create a recording and select one or more groups to have the system call and play the recording
+adminer="y" # : integrated for an administrator in the superadmin group to enable easy database access
+backup="y" # : pbx backup module. backup sqlite db / configs/ logs
+call_broadcast="y" # : Create a recording and select one or more groups to have the system call and play the recording
 call_center="n" # : display queue status, agent status, tier status for call centers using mod_callcenter call queues
-call_flows="n" # : Typically used with day night mode. To direct calls between two destinations.
-conference_centers="n" # : tools for multi room confrences and room contol
+call_flows="y" # : Typically used with day night mode. To direct calls between two destinations.
+conference_centers="y" # : tools for multi room confrences and room contol
 conference="n" # : tools for single room confrences and room contol
-content="n" # : Advanced-Content Manager
-edit="n" # : multi tools for editing (templates/xmlfiles/configfiles/scripts) files
-exec="n" # : comman shells pages for executing (php/shells) commands
-fax="n" # : fusionpbx send/recieve faxes service
-fifo="n" # : first in first out call queues system
-hot_desk="n" # : allows users to login and recieve calls on any office phone
+content="y" # : Advanced-Content Manager
+edit="y" # : multi tools for editing (templates/xmlfiles/configfiles/scripts) files
+exec="y" # : comman shells pages for executing (php/shells) commands
+fax="y" # : fusionpbx send/recieve faxes service
+fifo="y" # : first in first out call queues system
+hot_desk="y" # : allows users to login and recieve calls on any office phone
 schemas="n" # :
-services="n" # : allows interaction with the processes running on your server
-sipml5="n" # : php base softphone
-sql_query="n" # : allows you to interactively submit SQL queries to the database used in FusionPBX
-traffic_graph="n" # : php graph for monitoing the network interface traffic
-xmpp="n" # : Configure XMPP to work with Google talk or other jabber servers
+services="y" # : allows interaction with the processes running on your server
+sipml5="y" # : php base softphone
+sql_query="y" # : allows you to interactively submit SQL queries to the database used in FusionPBX
+traffic_graph="y" # : php graph for monitoing the network interface traffic
+xmpp="y" # : Configure XMPP to work with Google talk or other jabber servers
 aastra="n" # : phone provisioning tool &  templates for aastra phones
 atcom="n" # : phone provisioning tool &  templates for atcom phones
 cisco="n" # : phone provisioning tool & templates for cisco phones
@@ -983,7 +983,7 @@ let "index = $index + 1"
 done
 
 ###################################################################################
-# cd to the freeswitch src code and condifure it for proper dir layout and options.
+# cd to the freeswitch src code and configure it for proper dir layout and options.
 ###################################################################################
 ###################################################################################
 # Pulled from freeswitch/debain/rules files. Sets Dir in FHS Layout.....
